@@ -1,0 +1,23 @@
+VSL and SES measurement:
+
+1) open programms: SMCView (step motor) + Instrument: M266-4 (spectrometer) + C7557-01 (CCD)
+2) make the settings of measurements in M266-4 and C7557-01
+3) place the SMCView window into the upper left corner of the screen
+3) measure background and save it 
+4) measure signal and save it into a certain file
+5) open command line, run your compiled script as e.g.:
+
+C:\Data\> vslsesscript.exe vsl 10000 100 1000 0
+C:\Data\> vslsesscript.exe ses 10000 100 1000 250
+
+(cd \ (goes to root); cd data)
+
+
+where the 1st is the path to your complied script
+2nd is what you are gonna measure, 
+3rd is the total length of stripe in microns (as on motor. i.e. twice as big), 
+4th is step in microns (as on sample, i.e. usually 100um, which is 200um on motor) and 
+5th is integration time, 
+6th is the "zero" (as appears on motor)
+
+6) leave him measure without moving mouse   
