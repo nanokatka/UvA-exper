@@ -1,0 +1,125 @@
+//vezmi data "ses", sheet pojmenuj "orig" a udelej z nich ses krivky do noveho sheetu pomoci:
+
+aa=wks.nCols;
+bb=wks.nRows;
+newsheet cols:=wks.nCols name:="dataSES"; 
+copydata irng:=orig!col(1):col($(aa)) orng:=dataSES!col(1):col($(aa));
+wtranspose;
+range cc=col(1)[1:1];
+mark -d cc;
+for(ii=1;ii<=wks.nCols;ii++)
+{
+%s=$(ii);
+wks.col$(ii).name$=dSES%s
+};
+wks.col$(1).type=1;
+wks.insert(Position);
+wks.col$(1).type=4;
+gg=wks.MaxRows;
+for(ii=1;ii<=gg;ii++)
+{
+Col(Position)[ii]=(ii-1)*100
+}
+
+//pretahni mysi sheet nekam bokem a nazvi ho intSES, orez prebytecne bunky,
+//prorez ho nekolikanasobnym pouzitim ikonky X, dokud jich nezbude 81 (asi 3x)
+//prejmenuj sloupce pomoci
+
+for(ii=2;ii<=wks.nCols;ii++)
+{
+%s=$(ii-1);
+wks.col$(ii).name$=dSES%s
+}
+
+//vytvor sloupce "intSES" a napln je daty pomoci
+
+gg=wks.nCols;
+for (ii=2;ii<=gg;ii++)
+{
+%s=$(ii-1);
+wks.col$(ii).name$=dSES%s;
+wks.addCol(intSES%s);
+for (jj=1;jj<=wks.nRows;jj++)
+{
+hh=0;
+for (p=1;p<=jj;p++)
+{
+hh=intSES_dSES%s[p]+hh
+}
+intSES_intSES%s[jj]=hh
+}
+}
+
+
+//vezmi zkorigovany a orezany worksheet s VSL daty z iCCD 
+//prejmenuj sheet na "orig"
+//vytvor pomoci nasledujiciho bloku vsl:
+
+aa=wks.nCols;
+bb=wks.nRows;
+newsheet cols:=wks.nCols name:="dataVSL"; 
+copydata irng:=orig!col(1):col($(aa)) orng:=dataVSL!col(1):col($(aa));
+wtranspose;
+range cc=col(1)[1:1];
+mark -d cc;
+for(ii=1;ii<=wks.nCols;ii++)
+{
+%s=$(ii);
+wks.col$(ii).name$=dVSL%s
+};
+wks.col$(1).type=1;
+wks.insert(Position);
+wks.col$(1).type=4;
+gg=wks.MaxRows;
+for(ii=1;ii<=gg;ii++)
+{
+Col(Position)[ii]=(ii-1)*100
+}
+
+//pretahni mysi sheet "dataVSL" nekam bokem na plochu - vytvori se worksheet Book1
+//prejmenuj ho na "vDiff", orez prebytecne bunky!!!
+//pouzij vickrat skript na prorezani dat (tlacitko X), dokud jich nezbyde 81
+//prejmenuj sloupce pomoci nasledujiciho skriptu
+
+for(ii=2;ii<=wks.nCols;ii++)
+{
+%s=$(ii-1);
+wks.col$(ii).name$=dVSL%s
+}
+
+//nakopiruj za data "intSES1-21"
+//prejmenuj je na "intSES1-21 pomoci:
+
+
+for(ii=131;ii<=wks.nCols;ii++)
+{
+%s=$(ii-130);
+wks.col$(ii).name$=intSES%s
+}
+
+
+//pouzij nasledujici skript pro vytvoreni sloupcu "diff", a jeho naplneni:
+
+
+for (ii=2;ii<=130;ii++)
+{
+%s=$(ii-1);
+wks.addCol(diff%s);
+lr vDiff_dVSL%s -b 1 -e 5;
+aa%s=lr.b;
+lr vDiff_intSES%s -b 1 -e 5;
+bb%s=lr.b;
+dd=vDiff_dVSL%s[1];
+ee=vDiff_intSES%s[1];
+for (jj=1;jj<=wks.nRows;jj++)
+{
+vDiff_dVSL%s[jj]=vDiff_dVSL%s[jj]-dd;
+vDiff_intSES%s[jj]=vDiff_intSES%s[jj]-ee
+}
+for(jj=1;jj<=wks.nRows;jj++)
+{
+vDiff_intSES%s[jj]=vDiff_intSES%s[jj]*$(aa%s)/$(bb%s);
+vDiff_diff%s[jj]=vDiff_dVSL%s[jj]-vDiff_intSES%s[jj]
+}
+}
+

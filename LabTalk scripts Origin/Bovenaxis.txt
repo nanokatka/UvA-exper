@@ -1,0 +1,8 @@
+//Top axis eerst aanvinken
+
+
+layer.x2.label.formula$ = "1240/x" 
+
+label - 5 Energy (eV);
+
+label  Wavelength (nm);

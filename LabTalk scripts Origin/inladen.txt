@@ -1,0 +1,1 @@
+"FILeExstenction" options.ImpMode:=1 options.FileStruct.NumericSeparator:=0 options.Hdr.LNames:=0. options.Hdr.Units:=0. options.Hdr.CommsFrom:=0. options.Names.FNameToSht:=0 options.Names.FNameToBk:=0 options.Names.FNameToBkComm:=0 options.Names.FNameToColComm:=1 options.Names.FPathToComm:=0 options.PartImp.Partial:=1 options.PartImp.FirstRow:=60 options.PartImp.LastRow:=2190;

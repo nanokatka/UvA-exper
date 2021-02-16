@@ -1,0 +1,58 @@
+//Start with some workbooks
+
+
+newbook name:="Sample"; 
+
+wks.ncols = 20;
+
+newbook name:="Reference"; 
+
+wks.ncols = 20;
+
+newbook name:="corrected data"; 
+
+wks.ncols = 20;
+
+newbook;
+
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+newbook name:="Emissie"; 
+
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+//ZELF DOEN Import data, first wbook wavelengt and correctioncurve. Second wbook starting from colum 2 sample measurements (absorption). Third wbook starting from col 2 reference measurments.
+
+
+
+
+//definieren wavelenght en correctioncurve 
+
+range wav450=[Book1]Sheet1!col(a);
+range cor450=[Book1]Sheet1!col(b);
+
+//to plot; make colum 1 in book 2 and 3 wavelength. WATCH OUT WITH IMPORTING, FIRST COLM FREE!
+
+range x2=[Book2]Sheet1!col(a);
+x2=wav450;
+
+range x3=[Book3]Sheet1!col(a);
+x3=wav450;
+
+range x4=[Book4]Sheet1!col(a);
+x4=wav450;

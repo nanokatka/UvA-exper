@@ -1,0 +1,54 @@
+//new workbook
+
+newbook;
+
+//nummer of col. in workbook
+
+wks.ncols = 2;
+
+
+//clean project
+
+doc -s;doc -n;{win -cd};
+
+
+//plot
+plotxy iy:=(1,2) plot:=200;
+
+
+
+
+//columnummer rij nummer om cell aan te spreken
+col#[row#]
+
+
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;

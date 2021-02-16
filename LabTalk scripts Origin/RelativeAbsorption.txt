@@ -1,0 +1,153 @@
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+u=12;
+v=u+1;
+
+
+
+range wav450=[Book1]Sheet1!col(a);
+range cor450=[Book1]Sheet1!col(b);
+
+range x9=[Book9]Sheet1!col(a);
+x9=wav450;
+
+range x10=[Book10]Sheet1!col(a);
+x10=wav450;
+
+range x11=[Book11]Sheet1!col(a);
+x11=wav450;
+
+range x12=[Book12]Sheet1!col(a);
+x12=wav450;
+
+range x13=[Book13]Sheet1!col(a);
+x13=wav450;
+
+range x14=[Book14]Sheet1!col(a);
+x14=wav450;
+
+//Sample(en ref) kopieren en stukeruit knippen
+
+loop(j,1,$(v)){
+range qq=[Book2]Sheet1!col($(j));
+range ww=[Book9]Sheet1!col($(j));
+ww=qq;
+}
+
+loop(j,1,$(v)){
+range qq=[Book3]Sheet1!col($(j));
+range ww=[Book10]Sheet1!col($(j));
+ww=qq;
+}
+
+
+
+
+loop(j,2,$(v)){
+int a=97;
+range centerr= [Book7]Sheet1!Col($(j))[1];
+range centerl= [Book7]Sheet1!Col($(j))[2];
+range wa=[Book9]Sheet1!col($(j))[$(centerr):$(centerl)];
+mark -m wa;
+}
+
+loop(j,2,$(v)){
+int a=97;
+range centerr= [Book7]Sheet1!Col($(j))[1];
+range centerl= [Book7]Sheet1!Col($(j))[2];
+range wa=[Book10]Sheet1!col($(j))[$(centerr):$(centerl)];
+mark -m wa;
+}
+
+
+//intrapoleren ruis, en eraf trekken
+
+loop(j,2,$(v)){
+range sat= [Book9]Sheet1!Col($(j));
+range intr= [Book11]Sheet1!Col($(j));
+interp1 ix:=[Book9]Sheet1!col(a) iy:=[Book9]Sheet1!Col($(j)) sf:=10 ox:=intr;
+}
+
+loop(j,2,$(v)){
+range sat= [Book10]Sheet1!Col($(j));
+range intr= [Book12]Sheet1!Col($(j));
+interp1 ix:=[Book10]Sheet1!col(a) iy:=[Book10]Sheet1!Col($(j)) sf:=10 ox:=intr;
+}
+
+
+
+loop(i,2,$(v)){
+range w1=[Book2]Sheet1!col($(i));
+range w2=[Book11]Sheet1!col($(i));
+range w3=[Book13]Sheet1!col($(i));
+w3=(w1-w2)*wav450*cor450;
+}
+
+
+
+loop(i,2,$(v)){
+range w1=[Book3]Sheet1!col($(i));
+range w2=[Book12]Sheet1!col($(i));
+range w3=[Book14]Sheet1!col($(i));
+w3=(w1-w2)*wav450*cor450;
+}
+
+
+
+//sam integr
+
+loop(j,2,$(v)){
+range op=[Book15]Sheet1!Col($(j))[1:2];
+range centerr= [Book7]Sheet1!Col($(j))[1];
+range centerl= [Book7]Sheet1!Col($(j))[2];
+integ1 iy:=[Book13]Sheet1!Col($(j))[$(centerr):$(centerl)] type:=abs area:=op; 
+}
+
+//ref integr
+
+loop(j,2,$(v)){
+range op=[Book16]Sheet1!Col($(j))[1:2];
+range centerr= [Book7]Sheet1!Col($(j))[1];
+range centerl= [Book7]Sheet1!Col($(j))[2];
+integ1 iy:=[Book14]Sheet1!Col($(j))[$(centerr):$(centerl)] type:=abs area:=op; 
+}
+
+
+//%absorped
+
+loop(j,2,$(v)){
+range a1= [Book15]Sheet1!Col($(j));
+range a2= [Book16]Sheet1!Col($(j));
+range a3= [Book17]Sheet1!Col($(j));
+a3=(a2-a1)/a2;
+}
+
+
+wtranspose iw:=[Book17]Sheet1!;
+range a1= [Book17]Sheet1!Col(a);
+range a2= [Book17]Sheet1!Col(b);
+a2=a1
+
+wtranspose iw:=[Book6]Sheet1!;
+range a1= [Book6]Sheet1!Col(a);
+range a2= [Book17]Sheet1!Col(a);
+a2=a1

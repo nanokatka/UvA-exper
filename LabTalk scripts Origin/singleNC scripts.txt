@@ -1,0 +1,38 @@
+///sum2
+delete wcol(1);
+wtranspose;
+aa=wks.nCols;
+aa=aa-1;
+loop(i,1,aa){
+wcol(i)=wcol(i)+wcol(i+1)+wcol(i+2)
+}
+loop(i,1,aa){
+wcol(aa-i)=wcol(aa-i)-wcol(aa-i-1)
+}
+
+////vlozit jako prvni sloupec cisla sloupcu na kterych jsou spektr
+
+///spectra
+loop(i,1,20){
+aa=wcol(1)[i];
+aa=aa+1;
+wks.colSel(aa,1);
+}
+
+//spikes
+tt=0;
+loop(hh,1,wks.nRows){
+tt=tt+abs(wcol(3)[hh]-wcol(3)[hh+1])
+};
+uu=tt/wks.nRows;
+loop(j,2,wks.nCols){
+loop(i,2,wks.nRows){
+ss=wcol(j)[i]-wcol(j)[i+1];
+if (ss > uu*3) wcol(j)[i]=wcol(j)[i-1];
+}
+}
+
+//shift
+loop(i,2,wks.nCols){
+wcol(i)=wcol(i)+(i-2)*10
+}

@@ -1,0 +1,32 @@
+
+loop(i,2,$(v)){
+range sam=[Book2]Sheet1!col($(i));
+range ref=[Book3]Sheet1!col($(i));
+range cor=[Book4]Sheet1!col($(i));
+cor=(sam-ref)*wav450*cor450;
+}
+
+
+
+//Plotting all corrected absorption
+
+
+
+plotxy iy:=[Book4]Sheet1!(1,2:%(v)) plot:=200;
+
+//---------------------------------------------------------------------------------------------------TOT hier alles runnen, volgende blok daarna!
+//Peak finding
+
+
+
+//Integreren, TYP!pixel nummer in voor centerr en centerl
+
+
+loop(j,2,$(v)){
+range op=[Book8]Sheet1!Col($(j))[1:2];
+centerr=1;
+centerl=1854;
+integ1 iy:=[Book4]Sheet1!Col($(j))[$(centerr):$(centerl)] type:=abs area:=op; 
+}
+
+wtranspose iw:=[Book8]Sheet1!;

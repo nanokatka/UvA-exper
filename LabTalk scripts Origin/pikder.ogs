@@ -1,0 +1,35 @@
+
+worksheet fft;
+worksheet -d deriv1;
+riadky= wks.ncols;
+create pikder -w riadky;
+worksheet pikder;
+worksheet -a 5;
+
+for (ii=2; ii<= fft!wks.ncols; ii+=1) {
+curve.data$=fft_%(fft,@C,$(ii));
+curve.result$=deriv1_%(deriv1,@C,$(ii));
+curve.deriv();
+};
+
+end=deriv1!wks.nrows;
+begin=end-100;
+mark -d deriv1_Lambda -b begin -e end;
+mark -d deriv1_Lambda -b 1 -e 100;
+
+end=deriv1!wks.nrows-1;
+for (jj=2; jj<=deriv1!wks.ncols; jj+=1){
+kk=1;
+for (ii=1; ii<=end; ii+=1) {
+if ( deriv1_%(deriv1,@C,$(jj))[ii]>0 ) { 
+if ( deriv1_%(deriv1,@C,$(jj))[ii+1]<0 ) { 
+pikder_%(pikder,@C,$(kk))[jj]=deriv1_Lambda[ii];
+kk=kk+1;
+};
+};
+};
+};
+//najde polohy pikov vo worksheete fft
+//zderivuje worksheet fft do worksheetu deriv1
+//polohy pikov napise do worksheetu pikder
+

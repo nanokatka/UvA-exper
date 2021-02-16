@@ -1,0 +1,10 @@
+//Absortpion In MAll, trekt ref van sample af en vermedigvuldigd met correct en golflengte:
+
+
+
+loop(i,1,wks.nCols){
+range c1=[Book3]Sheet1!col($(i));
+range c2=[Book2]Sheet1!col($(i));
+range c3=[Book4]Sheet1!col($(i));
+c3=(c2-c1)*w450*c450;
+}

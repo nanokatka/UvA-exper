@@ -1,0 +1,9 @@
+//skalibruje aktivny worksheet;
+//kalibracne data musia byt v data3_B
+for (ii=1; ii<=wks.ncols; ii+=1)
+{
+if (wks.col$(ii).type==1)
+{
+wcol(ii)=wcol(ii)*kalibrace_B;
+};
+};

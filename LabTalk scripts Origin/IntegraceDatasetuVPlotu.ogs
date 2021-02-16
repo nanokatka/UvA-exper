@@ -1,0 +1,10 @@
+ii=0;
+doc -e D
+{
+ii=ii+1;
+integrate -a -q %C;
+s5integrace_A[$(ii)]=ii;
+s5integrace_B[$(ii)]=integ.area;
+};
+
+

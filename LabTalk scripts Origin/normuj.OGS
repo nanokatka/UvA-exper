@@ -1,0 +1,9 @@
+//normuje aktivny worksheet
+for (ii=1; ii<=wks.ncols; ii+=1) 
+{
+if (wks.col$(ii).type==1)
+{
+limit %H_%(%H,@C,$(ii));
+%H_%(%H,@C,$(ii))=%H_%(%H,@C,$(ii))/limit.ymax;
+};
+};

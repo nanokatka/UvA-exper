@@ -1,0 +1,15 @@
+pocet= wks.ncols-2;
+create piky2 -w 10;
+worksheet piky2;
+worksheet -a pocet;
+for (ii=2; ii<=wks.ncols; ii+=1) {
+curve.data$=fft2_%(fft2,@C,$(ii));
+curve.peakindex$=piky2_%(piky2,@C,$(ii));
+curve.pickPeaks.rectHeight = .02;
+curve.pickPeaks.rectWidth = .02;
+curve.pickPeaks.minHeight = .02;
+curve.pickpeaks(1);
+};
+//najde polohy pikov vo worksheete fft2
+//ich polohy zapise do worksheetu piky2
+//pozor! nenajde vsetky

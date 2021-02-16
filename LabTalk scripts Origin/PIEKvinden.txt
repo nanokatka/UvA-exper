@@ -1,0 +1,25 @@
+
+string result$ = %h;
+
+
+
+range Data=2; //Hier piek van halen
+
+range pcenter=7, pleft=8, pright=9; //Hierplaatsen
+ 
+
+ 
+//Find peak
+
+
+pkfind Data 100 ocenter:=pcenter oleft:=pleft oright:=pright;
+
+
+
+
+
+INTEGREREN:
+
+range aaa = 2[pleft]:2[pright];   //2 is hier col nummer
+integ1 aaa abs;
+

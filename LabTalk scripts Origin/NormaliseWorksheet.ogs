@@ -1,0 +1,14 @@
+//duplicates the active window and normalises the data of all Y columns
+define NormaliseWorksheet 
+{
+worksheet -d %H+"N";
+for (ii=1; ii <= wks.nCols; ii++) 
+{
+if (wks.col$(ii).type==1)
+{
+limit %H_%(%H,@C,$(ii)); 
+%H_%(%H,@C,$(ii))=%H_%(%H,@C,$(ii))/limit.ymax;
+};
+};
+};
+

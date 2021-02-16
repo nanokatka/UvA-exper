@@ -1,0 +1,11 @@
+%B=fft2_Lambda; //stlpec pre urcovanie hodnot lambda
+worksheet -d pikylambda;
+for (ii=1; ii<=pikylambda!wks.nCols; ii+=1) {
+for (jj=1; jj<=3; jj+=1) {
+cislo=piky3_%(piky3,@C,$(ii))[$(jj)];
+pikylambda_%(pikylambda,@C,$(ii))[$(jj)]=%B[cislo];
+};
+};
+//vo worksheete piky, v ktorom su indexy pikov, zameni 
+//indexy pikov za vlnove dlzky podla fft_lambda
+//vysledok zapise do pikylambda

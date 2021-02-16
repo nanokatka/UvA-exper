@@ -1,0 +1,13 @@
+window -n wks;
+getfile -m *.asc;
+for (ii=1; ii<=count; ii++){
+getfile -g ii; 
+open -a %A;
+worksheet -n $(wks.ncols) %H;
+if ((wks.ncols-1)!=1){delete %H_%(%H,@C,$(wks.ncols-1));
+};
+//deletes the last but one column except the first column
+//worksheet -t $(wks.ncols-1) 4; //sets the last but one column as X
+};
+worksheet -n 1 Lambda;
+worksheet -t 1 4;

@@ -1,0 +1,12 @@
+//dodani informativniho textiku dolu do vsech grafu;
+Velikostfontu=system.font.labelsize;
+system.font.labelsize=10;
+Page.Active=1;
+label -p 110 103 -j 1 -s -sa -e -n %H!InfoMereni %g.opj\r\n$(@D,D)\r\nsample\r\nexperiment;
+draw -n %H!InfoMereni -z get;
+doc -e P
+{
+Page.Active=1;
+label -p 110 103 -j 1 -s -sa -n %H!InfoMereni %Z;
+};
+system.font.labelsize=Velikostfontu;

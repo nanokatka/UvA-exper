@@ -1,0 +1,9 @@
+worksheet -d smooth;
+for (ii=2; ii<=wks.ncols; ii+=1) {
+curve.data$=%H_%(%H,@C,$(ii));
+curve.result$=smooth_%(smooth,@C,$(ii));
+curve.smoothpts=50;
+curve.adjave();
+limit smooth_%(smooth,@C,$(ii));
+%(maxima,2,$(ii))=limit.ymax;
+};

@@ -1,0 +1,109 @@
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+u=12;
+v=u+1;
+
+loop(j,1,$(v)){
+range qq=[Book2]Sheet1!col($(j));
+range ww=[Book9]Sheet1!col($(j));
+ww=qq;
+}
+
+range wav450=[Book1]Sheet1!col(a);
+range cor450=[Book1]Sheet1!col(b);
+
+range x9=[Book9]Sheet1!col(a);
+x9=wav450;
+
+range x10=[Book10]Sheet1!col(a);
+x10=wav450;
+
+range x11=[Book11]Sheet1!col(a);
+x11=wav450;
+
+
+range x13=[Book13]Sheet1!col(a);
+x13=wav450;
+
+loop(i,2,$(v)){
+range sam=[Book2]Sheet1!col($(i));
+range cor=[Book9]Sheet1!col($(i));
+cor=(sam);
+}
+
+\\uitsnijden pieken
+
+loop(j,2,$(v)){
+int a=97;
+range centerr= [Book7]Sheet1!Col($(j))[1];
+range centerl= [Book7]Sheet1!Col($(j))[2];
+range wa=[Book9]Sheet1!col($(j))[$(centerr):$(centerl)];
+mark -m wa;
+}
+
+\\intrapoleren ruis
+
+loop(j,2,$(v)){
+range sat= [Book9]Sheet1!Col($(j));
+range intr= [Book10]Sheet1!Col($(j));
+interp1 ix:=[Book9]Sheet1!col(a) iy:=[Book9]Sheet1!Col($(j)) sf:=10 ox:=intr;
+}
+
+\\Sample intensiteit (abs) berekenen
+
+loop(i,2,$(v)){
+range w1=[Book2]Sheet1!col($(i));
+range w2=[Book10]Sheet1!col($(i));
+range w3=[Book11]Sheet1!col($(i));
+w3=(w1-w2)*wav450*cor450;
+}
+
+\\Absoprtie Berekenen I(exp[a+b]-1)*b/(a+b)
+
+
+
+range aplusb=[Book12]Sheet1!col(c);
+range alpha=[Book12]Sheet1!col(b);
+range w4=[Book12]Sheet1!col(d);
+w4=(Exp(aplusb)-1)*(aplusb-alpha)/aplusb;
+
+loop(i,2,$(v)){
+range w5=[Book11]Sheet1!col($(i));
+range w6=[Book12]Sheet1!col(d);
+range w7=[Book13]Sheet1!col($(i));
+w7=w5*w6
+}
+
+
+
+\\integreren
+
+
+
+loop(j,2,$(v)){
+range op=[Book14]Sheet1!Col($(j))[1:2];
+range centerr= [Book7]Sheet1!Col($(j))[1];
+range centerl= [Book7]Sheet1!Col($(j))[2];
+integ1 iy:=[Book13]Sheet1!Col($(j))[$(centerr):$(centerl)] type:=abs area:=op; 
+}
+
+wtranspose iw:=[Book14]Sheet1!;

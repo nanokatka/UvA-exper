@@ -1,0 +1,24 @@
+//odecti od vsech dat prvni hodnotu
+
+for (ii=2;ii<=wks.nCols;ii++)
+{
+dd=wcol(ii)[1];
+for (jj=1;jj<=wks.nRows;jj++)
+{
+wcol(ii)[jj]=wcol(ii)[jj]-dd
+}
+}
+
+
+//
+loop(i,2,wks.nCols){
+if (wks.col$(i).type==1){
+wcol(i)=wcol(i)*(-1);
+};
+}
+
+
+//-ln(...)
+for (ii=2;ii<=wks.nCols;ii++){
+wcol(ii)=ln(wcol(ii))*(-1);
+}

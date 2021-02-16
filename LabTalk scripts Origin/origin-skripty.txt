@@ -1,0 +1,226 @@
+--------------------vyhlazeni
+loop(i,2,wks.ncols)
+{
+smooth iy:=[Book4]Or1!col($(i)) method:=aav npts:=70 oy:=[Book4]Or1!col($(i));
+}
+
+
+
+-----------------piky
+%s=Book2;
+%t=Sheet1;
+loop(i,2,wks.ncols)
+{
+pkFind iy:=[%s]%t!col($(i)) npts:=90 dir:=positive smooth:=0 minh:=50 minw:=30 maxw:=75  res:=[%s]pom;
+wtranspose iw:=[%s]pom! ow:=[%s]pom2!;
+colcopy irng:=[%s]pom2!Col(1) orng:=[%s]peaks!Col($(i));
+}
+wtranspose [%s]peaks!;
+
+----------------------------
+%s=Book1;
+%t=Sheet2;
+loop(i,2,wks.ncols)
+{
+type -b Peaks in col$(i) ().
+pkFind iy:=[%s]%t!col($(i)) npts:=90 dir:=positive smooth:=0 ocenter:=[%s]peaks!A"Max";
+}
+
+
+---------------------------korekce
+loop(i,3,wks.ncols)
+{
+col($(i))=col($(i))*col(2)
+}
+
+
+
+-----------------------------soucet
+loop(i,3,wks.ncols)
+{
+col($(i))=col($(i))+col($(i-1))
+}
+
+
+
+--------------fity
+loop(i,2,wks.ncols)
+{
+fitpeaks npeaks:=2 t:=0 iy:=col(2) rt:=[Book1]<new> hint:=0
+}
+
+
+Pri fitovani se da odkazovat na vysledek:
+ [Book]Sheet!Parameters.R5.C1 apod; po smazani Fitted Curves se zblbnou nektere popisky
+ 
+ 
+
+---------odecitani matic
+mH=4;
+mW=3;
+loop(j,1,$(mW))
+{
+ loop(i,1,$(mH))
+ {
+ cell($(i),$(j))=cell($(i),$(j))-cell($(i)+$(mH)+1,$(j));
+ }
+}
+
+
+------------integrace
+loop (i,2,wks.nCols)
+{
+integ1 iy:=Col($(i))[85:512] oy:=[Book8]1sedX-100!Col($(i)) type:=abs;
+}
+
+
+-------------z worksheetu vyhlazena matice
+%s = mData;
+n = wks.nCols;
+newsheet cols:=wks.nCols-1 name:="Temp" template:="D:\KK\Zalohy\NastaveniOrigin\Origin8\PLmatrixnoX";
+copydata irng:=d0512!col(2):col($(n)) orng:=Temp!col(1):col($(n));
+w2m om:="[%s]Original";
+medianflt2 om:="[%s]Smoothed";
+mshrink cols:=1 rows:=15 om:="[%s]Shrink";
+
+
+------------dnesni datum
+$(@D,D1) - dnesni datum ve formatu D1
+
+
+-------------preskalovani grafu podle kvantilu
+quantiles ix:=<active> q1:=a q3:=b iqr:=c;
+a=a-c;
+b=b+c;
+laysetscale igp:=<active> layer:=<active> axis:=1 from:=$(a) to:=$(b);
+
+
+-----------najit index maxima ve sloupci
+limit col(2);
+k=limit.imax;
+k=
+
+
+---------zobrazit dialog
+type -b "max"
+
+
+---------najit cislo posledni rady v sloupci
+get col(2) -e a;
+a=
+
+
+-----------odstraneni spiku
+CC=3;     //konstanta pro definovani spiku
+
+loop(i,2,wks.ncols)
+{  
+if (wks.col.type==1)  //Y
+{
+quantiles ix:=col($(i)) q1:=a q3:=b iqr:=c max:=max min:=min; 
+loop(j,1,10)
+{
+if (max>$(CC)*(b+c))
+ {
+  limit col($(i));
+  k=limit.imax;
+  pom=(col($(i))[$(k)-1]+col($(i))[$(k)+1])/2;
+  if (k==1) pom=col($(i))[2];
+  get col($(i)) -e last;
+  if (k==last) pom=col($(i))[$(last)-1];  
+  col($(i))[$(k)]=pom;
+  limit col($(i));
+  max=limit.ymax;
+  type -b $(max);
+ }
+ else
+ {
+  type -b "Max Else";
+  break;
+  }
+} 
+loop(j,1,10)
+{
+if (min<$(CC)*(a-c))
+ {
+  k=limit.imin;
+  pom=(col($(i))[$(k)-1]+col($(i))[$(k)+1])/2;
+  if (k==1) pom=col($(i))[2];
+  get col($(i)) -e last;
+  if (k==last) pom=col($(i))[$(last)-1];
+  col($(i))[$(k)]=pom;
+  limit col($(i));
+  min=limit.ymin;
+  type -b $(min)
+ }
+ else
+ {
+  type -b "Min Else";
+  break;
+  }
+ }    //loop j
+ }    //if Y
+ }    //loop i
+
+
+-----------konvoluce
+//----variable definition------------
+%b = "Book6";
+%s = "Sheet1";
+%t = "Table1";
+$RowMax = 341;
+range x1 = [%b]%s!col(1);
+range b1 = [%b]%s!col(2);
+range c1 = [%b]%s!col(3);
+range c2 = [%b]%s!col(4);
+range d1 = [%b]%s!col(6);
+range x2 = [%b]%s!col(7);
+range e1 = [%b]%s!col(8);
+range eK = [%b]%s!(col(7),col(8));
+range e2 = [%b]%s!col(9);
+range d2 = [%b]%s!col(10);
+range f1 = [%b]%s!col(11);
+range f2 = [%b]%s!col(12);
+range table = [%t]!col(2);
+
+//----fitting function definition----
+$tau = 1.965;
+c1=exp(-x1/$tau);
+normalize iy:=c1 oy:=c2 method:=max;
+
+//----calculate convolution----------
+conv ix:=c1 response:=b1 oy:=eK;
+normalize iy:=e1 oy:=e2 method:=max;
+table[2]=$tau;
+
+//----calculate difference-----------
+interp1 ix:=x2 iy:=d1 ox:=d2 method:=linear;
+f1=(e2-d2)^2;
+$a = 0;
+loop(i,1,$RowMax)
+{
+$a=$a+f1[i]
+};
+f2[1]=$a;
+table[1]=$a;
+
+//------reduce data points----------
+a=wks.c1;                      //selected X
+b=wks.c2;                      //selected Y
+%s="red"+wks.cName$(a)$;       // newname: redA, etc. 
+%t="red"+wks.cName$(b)$;
+worksheet -i b %s;
+b++;
+worksheet -i b %t;
+colcopy irng:=<active> orng:=(col(%s),col(%t)) data:=0 format:=1 lname:=1 units:=1 comments:=1;
+reduce irng:=<active> orng:=(col(%s),col(%t)) num:=8 method:=ave;
+
+
+------plot selected data---------
+worksheet -p scatter
+
+
+-----znaky:
++/-  \(177)
+mikro \(181)
+times \(215)

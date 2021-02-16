@@ -1,0 +1,10 @@
+%A=%H;
+worksheet -d %H+"fft";
+for (ii=2; ii<=wks.ncols; ii+=1) {
+curve.data$=%A_%(%A,@C,$(ii));
+curve.result$=%H_%(%H,@C,$(ii));
+curve.smoothpts=70;
+curve.FFTSmooth();
+};
+//vyhladi spektra v aktualnom worksheete pomocou fft;
+//vytvori worksheet s priponou fft

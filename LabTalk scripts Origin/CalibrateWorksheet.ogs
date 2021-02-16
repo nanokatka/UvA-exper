@@ -1,0 +1,13 @@
+//duplicates the active window and calibrates the data of all Y columns;
+// !!! The Worksheet with calibration data name has to be "Kalibrace" and column "KalKrivka"
+define CalibrateWorksheet 
+{
+worksheet -d %H+"C";
+for (ii=1; ii <= wks.nCols; ii++) 
+{
+if (wks.col$(ii).type==1)
+{
+%H_%(%H,@C,$(ii))=%H_%(%H,@C,$(ii))*Kalibrace_KalKrivka;
+};
+};
+};

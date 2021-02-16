@@ -1,0 +1,5 @@
+//nalepi aktualny worksheet pod worksheet okno2
+for (ii=1; ii <= wks.nCols; ii+=1)
+{
+copy -a %H_%(%H,@C,$(ii)) window1_%(window1,@C,$(ii));
+};

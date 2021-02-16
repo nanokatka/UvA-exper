@@ -1,0 +1,16 @@
+//mam Book nazvany SES a v nem dva sloupce - x-ovou osu a data. 
+//skript druhy sloupec prejmenuje na SES, vytvori sloupec intSES a 
+//nasype do nej integrovany SES 
+
+
+wks.col2.name$=SES;
+wks.addCol(intSES);
+for (ii=1 ; ii < wks.nRows ; ii++)
+{
+aa=0;
+for (p=1; p<=ii;p++)
+{
+aa=SES_SES[p]+aa
+}
+SES_intSES[ii]=aa
+}

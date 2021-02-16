@@ -1,0 +1,19 @@
+for (ii=2;ii<=22;ii++)
+{
+%s=$(ii-1);
+wks.addCol(diff%s);
+
+for (jj=1;jj<=wks.nRows;jj++)
+{
+vsl1_dVSL%s[jj]=vsl1_dVSL%s[jj]-vsl1_dVSL%s[1];
+vsl1_intSES%s[jj]=vsl1_intSES%s[jj]-vsl1_intSES%s[1];
+aa%s=vsl1_dVSL%s[10]/1000;
+bb%s=vsl1_intSES%s[10]/1000;
+}
+
+for(jj=1;jj<=wks.nRows;jj++)
+{
+vsl1_intSES%s[jj]=vsl1_intSES%s[jj]*$(aa%s)/$(bb%s);
+vsl1_diff%s[jj]=vsl1_dVSL%s[jj]-vsl1_intSES%s[jj]
+}
+}

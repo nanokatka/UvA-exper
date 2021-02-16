@@ -1,0 +1,14 @@
+//win -t plot origin;
+//win -n plot;
+Page.Active=1;
+layer.x.opposite=1;
+layer.x.ticks=5;
+layer.x.label.pt=22;
+layer.y.opposite=1;
+layer.y.ticks=5;
+layer.y.label.pt=22;
+label -e -XB X Axis Title;
+label -e -YL Y Axis Title;
+XB.fSize=28;
+YL.fSize=28;
+YL.rotate=90;

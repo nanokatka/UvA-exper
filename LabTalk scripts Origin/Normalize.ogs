@@ -1,0 +1,5 @@
+loop(i,2,wks.nCols){
+if (wks.col$(i).type==1){
+ normalize iy:=wcol(i) oy:=wcol(i) method:=max;
+};
+}

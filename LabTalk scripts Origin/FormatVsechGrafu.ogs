@@ -1,0 +1,18 @@
+doc -e P
+{
+layer.x.opposite=1;
+layer.x.ticks=5;
+layer.x.label.pt=22;
+layer.x.from=710;
+layer.x.inc=20;
+layer.x.to=890;
+layer.y.opposite=1;
+layer.y.ticks=5;
+layer.y.label.pt=22;
+layer.y.from=0;
+label -XB \b(wavelength (nm));
+label -YL \b(PL intensity (a.u.));
+XB.fSize=28;
+YL.fSize=28;
+YL.rotate=90;
+};

@@ -1,0 +1,13 @@
+riadky= wks.ncols;
+stlpce=wks.nrows-2;
+%B=trans;
+create %B -w riadky;
+worksheet %B;
+worksheet -a stlpce;
+for (ii=1; ii<=riadky; ii+=1) {
+for (jj=1; jj<=stlpce+2; jj+=1) {
+%B_%(%B,@C,$(jj))[ii]=pikyintenzity_%(pikyintenzity,@C,$(ii))[jj];
+};
+};
+//transponuje aktualny worksheet do worksheetu trans
+

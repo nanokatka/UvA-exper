@@ -1,0 +1,30 @@
+
+
+
+string mybk$=%H;
+newsheet name:=FitLines c:=1;// add new sheet to hold fit lines
+range aa = 1!;//1st sheet, assume we start with just one data sheet
+range bb = FitLines!;// the newly added sheet called "FitLines"
+bb.ncols = aa.ncols;//  Add new columns in FitLines sheet
+// loop all cols and fit lr and put results into line
+// the FitLR X-Function is used
+dataset slopes, intercepts; // to hold fitting result parameters
+slopes.SetSize(aa.ncols-1); // number of Ys in our data wks
+intercepts.SetSize(slopes.GetSize());// not needed for now, but may be want this later
+loop(ii,2,aa.ncols) {
+	range dd = 1!(1,$(ii));
+	fitlr i:=dd o:=FitLines!(1, wcol(ii));
+	slopes[ii-1] = fitlr.b;//ii-1 because we loop from 2
+	intercepts[ii-1] = fitlr.a;
+}
+// now we can make a plot with all the source data and fit and add a lable to show name and slope
+loop(ii,2,aa.ncols) {
+	range data = [mybk$]1!(1,wcol(ii));
+	range fit = [mybk$]FitLines!(1,wcol(ii));
+	win -t plot;
+	plotxy data plot:=201 o:=<active>;//plot source data as scatter
+	plotxy fit plot:=200 rescal:=0 color:=color(red) o:=<active>;
+	label -r legend;// we dont really need a legend
+label -s -q 2 -n myLabel1 "Linear Fit to %(1,@LM)
+slope=$(slopes[ii-1])";
+}

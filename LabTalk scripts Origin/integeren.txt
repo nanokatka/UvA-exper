@@ -1,0 +1,7 @@
+loop(j,2,20){
+range op=[Book5]Sheet1!Col($(j))[1:2];
+integ1 iy:=[Book4]Sheet1!Col($(j))[1622:1805] type:=abs area:=op ; 
+}
+
+
+

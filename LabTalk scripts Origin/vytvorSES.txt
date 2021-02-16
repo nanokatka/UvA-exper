@@ -1,0 +1,25 @@
+aa=wks.nCols;
+bb=wks.nRows;
+
+newsheet cols:=wks.nCols name:="dataSES"; 
+copydata irng:=orig!col(1):col($(aa)) orng:=dataSES!col(1):col($(aa));
+wtranspose;
+
+range cc=col(1)[1:1];
+mark -d cc;
+
+for(ii=1;ii<=wks.nCols;ii++)
+{
+%s=$(ii);
+wks.col$(ii).name$=dSES%s
+};
+
+wks.col$(1).type=1;
+wks.insert(Position);
+wks.col$(1).type=4;
+
+gg=wks.MaxRows;
+for(ii=1;ii<=gg;ii++)
+{
+Col(Position)[ii]=(ii-1)*100
+};

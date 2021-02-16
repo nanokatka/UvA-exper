@@ -1,0 +1,18 @@
+layer -j;
+doc -e LW 
+	{
+		if(Page.Active!=1)
+	{
+		layer.link=Page.Active-1;
+		layer.showLabel=0;
+		layer.showx=0;
+		layer.showy=0;
+		layer.x.link=1;
+		layer.y.link=1;
+		layer.unit=7;
+		layer.top=0;
+		layer.height=100;
+		layer.left=0;
+		layer.width=100;
+	};
+	};

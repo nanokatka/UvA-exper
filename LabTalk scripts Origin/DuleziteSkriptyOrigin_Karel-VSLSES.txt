@@ -1,0 +1,26 @@
+void AdaptDataInWks(Worksheet wks)
+{
+    Dataset dsX(wks,0);                                     // dataX
+    float StepX=dsX[1]-dsX[0];                              // urci jaky je krok X
+    foreach( Column col in wks.Columns )                    // pro kazdy sloupec ve worksheetu.... (vc. prvniho sloupce)
+    {
+        Dataset ds(col);                                    // ulozi sloupec do promenne "ds"
+        Curve cc;                                           // zalozi si krivku "cc"
+        cc.Attach(wks,col.GetIndex());                      // krivka zobrazuje data ze sloupce
+        cc.SetLowerBound(0);                                // nastavi rozmezi 0 az 5
+        cc.SetUpperBound(5);
+        vector<double> linFitC(2);                          //vytvori si promenne, do kterych se bude ukladat vysledek fitu
+        fitpoly(cc, 1, linFitC, 0, 0);                      // samotny fit
+        
+        double dZero;                //ulozi si koeficient linFit[0] do dZero a odecte to od sloupce.... udelano oklikou, ale v Or7 to jinak neslo
+        dZero=linFitC[0];            
+        ds = ds - dZero;        
+    
+        if( OKDATAOBJ_DESIGNATION_Y == col.GetType() )      //pokud je to
+        {
+            double dSlope;                             //ulozi si koeficient linFit[1] do dSlope a vydeli sloupec tak, aby na pozici 5 byla "1"
+            dSlope=linFitC[1]*5*StepX;            
+            ds = ds /dSlope;
+        }
+    }
+}

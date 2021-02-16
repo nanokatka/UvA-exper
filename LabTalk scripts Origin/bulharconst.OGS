@@ -1,0 +1,12 @@
+//data v aktivnom worksheete vynasobi tak, aby
+//bol spojity s worksheetom okno2
+//!!treba nastavit riadok pre vypocet konstanty (1010 a 16)
+//
+for (ii=1; ii<=wks.ncols; ii+=1)
+{
+if (wks.col$(ii).type==1)
+{
+b=%(%H,$(ii),16)/%(okno2,$(ii),1010);
+%H_%(%H,@C,$(ii))=%H_%(%H,@C,$(ii))/b;
+};
+};

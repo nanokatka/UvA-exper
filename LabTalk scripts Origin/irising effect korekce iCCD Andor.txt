@@ -1,0 +1,68 @@
+// step 0,5ns
+
+aa=wks.nCols;
+bb=aa-10;
+for(ii=2;ii<bb;ii++)
+{
+for (ii=1; ii<=14;ii++){col(11)[ii]=col(10)[ii]};
+for (ii=15; ii<=53;ii++){col(11)[ii]=col(9)[ii]};
+for (ii=54; ii<=72;ii++){col(11)[ii]=col(8)[ii]};
+for (ii=73; ii<=111;ii++){col(11)[ii]=col(7)[ii]};
+for (ii=112; ii<=130;ii++){col(11)[ii]=col(6)[ii]};
+for (ii=131; ii<=169;ii++){col(11)[ii]=col(5)[ii]};
+for (ii=170; ii<=189;ii++){col(11)[ii]=col(4)[ii]};
+for (ii=190; ii<=247;ii++){col(11)[ii]=col(3)[ii]};
+for (ii=248; ii<=422;ii++){col(11)[ii]=col(2)[ii]};
+for (ii=423; ii<=461;ii++){col(11)[ii]=col(3)[ii]};
+for (ii=462; ii<=500;ii++){col(11)[ii]=col(4)[ii]};
+for (ii=501; ii<=539;ii++){col(11)[ii]=col(5)[ii]};
+for (ii=540; ii<=578;ii++){col(11)[ii]=col(6)[ii]};
+for (ii=579; ii<=597;ii++){col(11)[ii]=col(7)[ii]};
+for (ii=598; ii<=636;ii++){col(11)[ii]=col(8)[ii]};
+for (ii=634; ii<=649;ii++){col(11)[ii]=col(9)[ii]}
+}
+
+//step 0,1ns
+
+aa=wks.nCols;
+bb=aa-40;
+for(ii=2;ii<bb;ii++)
+{
+col($(ii))[1]=col($(ii+38))[1];
+col($(ii))[2]=col($(ii+37))[21];
+col($(ii))[3]=col($(ii+33))[40];
+col($(ii))[4]=col($(ii+29))[60];
+col($(ii))[5]=col($(ii+28))[80];
+col($(ii))[6]=col($(ii+25))[99];
+col($(ii))[7]=col($(ii+22))[119];
+col($(ii))[8]=col($(ii+20))[138];
+col($(ii))[9]=col($(ii+18))[158];
+col($(ii))[10]=col($(ii+15))[178];
+col($(ii))[11]=col($(ii+11))[197];
+col($(ii))[12]=col($(ii+9))[217];
+col($(ii))[13]=col($(ii+7))[237];
+col($(ii))[14]=col($(ii+4))[256];
+col($(ii))[15]=col($(ii+3))[276];
+col($(ii))[16]=col($(ii+1))[296];
+col($(ii))[17]=col($(ii+3))[315];
+col($(ii))[18]=col($(ii+2))[335];
+col($(ii))[19]=col($(ii+2))[354];
+col($(ii))[20]=col($(ii+3))[374];
+col($(ii))[21]=col($(ii+4))[394];
+col($(ii))[22]=col($(ii+6))[413];
+col($(ii))[23]=col($(ii+8))[433];
+col($(ii))[24]=col($(ii+11))[453];
+col($(ii))[25]=col($(ii+13))[472];
+col($(ii))[26]=col($(ii+17))[492];
+col($(ii))[27]=col($(ii+19))[512];
+col($(ii))[28]=col($(ii+21))[531];
+col($(ii))[29]=col($(ii+24))[551];
+col($(ii))[30]=col($(ii+28))[570];
+col($(ii))[31]=col($(ii+29))[590];
+col($(ii))[32]=col($(ii+32))[610];
+col($(ii))[33]=col($(ii+35))[629];
+col($(ii))[34]=col($(ii+36))[649];
+}
+
+
+

@@ -1,0 +1,155 @@
+//orizni data z iCCD (187px-835px)
+
+mark -d %C -b 1 -e 186;
+mark -d %C -b 650 -e 838;
+
+//korekce dat
+
+loop(i,3,wks.nCols){
+if (wks.col$(i).type==1){
+wcol(i)=wcol(i)*Col(KOR);
+};
+}
+
+//vyhlad
+
+loop(i,2,wks.nCols){
+if (wks.col$(i).type==1){
+smooth iy:=wcol(i) method:=0 npts:=20 oy:=wcol(i);
+};
+}
+
+//znormuj
+
+loop(i,2,wks.nCols){
+if (wks.col$(i).type==1){
+ normalize iy:=col$(i) oy:=col$(i) method:=max;
+};
+}
+
+//smaz vsechny x-ove osy krome prvni
+
+loop (ii,3, wks.nCols){
+delete %H_%(%H,@C,$(ii));
+}
+
+loop (i,1, wks.nCols){
+a=3+2*i;
+delete wcol(a)
+}
+
+
+//zlogaritmuj vsechno - slope grafy
+
+loop(i,1,wks.nCols){
+wcol(i)=log(wcol(i));
+}
+
+
+
+//integrovany SES
+//mam Book nazvany SES a v nem dva sloupce - x-ovou osu a data. 
+//skript druhy sloupec prejmenuje na SES, vytvori sloupec intSES a 
+//nasype do nej integrovany SES 
+
+bb=wks.nCols;
+for (ii=2;ii<=bb;ii++)
+{
+%s=$(ii-1);
+wks.col$(ii).name$=SES%s;
+wks.addCol(intSES%s);
+for (jj=1;jj<wks.nRows;jj++)
+{
+aa=0;
+for (p=1;p<=jj;p++)
+{
+aa=SES_SES%s[p]+aa
+}
+SES_intSES%s[jj]=aa
+}
+}
+
+
+//odecti od vsech dat prvni hodnotu
+
+for (ii=2;ii<=wks.nCols;ii++)
+{
+dd=wcol(ii)[1];
+for (jj=1;jj<=wks.nRows;jj++)
+{
+wcol(ii)[jj]=wcol(ii)[jj]-dd
+}
+}
+
+
+//napasuj na sebe dve krivky TimeASE
+
+for (ii=2; ii<=14;ii++)
+{
+dd=(wcol(ii)[500]+wcol(ii)[499]+wcol(ii)[498]+wcol(ii)[497])/4;
+aa=ii+14;
+ee=(wcol(aa)[78]+wcol(aa)[77]+wcol(aa)[76]+wcol(aa)[75])/4;
+for (jj=1;jj<=wks.nRows;jj++)
+{
+wcol(aa)[jj]=wcol(aa)[jj]*dd/ee
+}
+}
+
+
+
+//
+loop(i,2,wks.nCols){
+if (wks.col$(i).type==1){
+wcol(i)=wcol(i)*(-1);
+};
+}
+
+
+//-ln(...)
+for (ii=2;ii<=wks.nCols;ii++){
+wcol(ii)=ln(wcol(ii))*(-1);
+}
+
+
+//------reduce data points---------- (staci posledni radek: reduce irng:=<active> orng:=<active> num:=8 method:=ave;)
+a=wks.c1;                      //selected X
+b=wks.c2;                      //selected Y
+%s="red"+wks.cName$(a)$;       // newname: redA, etc. 
+%t="red"+wks.cName$(b)$;
+worksheet -i b %s;
+b++;
+worksheet -i b %t;
+colcopy irng:=<active> orng:=(col(%s),col(%t)) data:=0 format:=1 lname:=1 units:=1 comments:=1;
+reduce irng:=<active> orng:=(col(%s),col(%t)) num:=8 method:=ave;
+
+//zpracovani dat z osciloskopu (1M, mV, us)
+mark -d %C -b 1 -e 428600;
+mark -d %C -b 202002 -e 571400;
+reduce irng:=<active> orng:=<active> num:=8 method:=ave;
+wcol(1)=wcol(1)/0.000001;
+wcol(2)=wcol(2)/0.001;
+
+//casove korigovane spektrum (merene s krokem 0,5ns) - vezmi 9 sloupcu a do desateho dej korigovane spektrum
+for (ii=1; ii<=14;ii++){col(11)[ii]=col(10)[ii]};
+for (ii=15; ii<=53;ii++){col(11)[ii]=col(9)[ii]};
+for (ii=54; ii<=72;ii++){col(11)[ii]=col(8)[ii]};
+for (ii=73; ii<=111;ii++){col(11)[ii]=col(7)[ii]};
+for (ii=112; ii<=130;ii++){col(11)[ii]=col(6)[ii]};
+for (ii=131; ii<=169;ii++){col(11)[ii]=col(5)[ii]};
+for (ii=170; ii<=189;ii++){col(11)[ii]=col(4)[ii]};
+for (ii=190; ii<=247;ii++){col(11)[ii]=col(3)[ii]};
+for (ii=248; ii<=422;ii++){col(11)[ii]=col(2)[ii]};
+for (ii=423; ii<=461;ii++){col(11)[ii]=col(3)[ii]};
+for (ii=462; ii<=500;ii++){col(11)[ii]=col(4)[ii]};
+for (ii=501; ii<=539;ii++){col(11)[ii]=col(5)[ii]};
+for (ii=540; ii<=578;ii++){col(11)[ii]=col(6)[ii]};
+for (ii=579; ii<=597;ii++){col(11)[ii]=col(7)[ii]};
+for (ii=598; ii<=636;ii++){col(11)[ii]=col(8)[ii]};
+for (ii=634; ii<=649;ii++){col(11)[ii]=col(9)[ii]}
+
+
+
+
+loop(i,4,wks.nCols){
+wcol(i)=wcol(i)/wcol(2)[i];
+}

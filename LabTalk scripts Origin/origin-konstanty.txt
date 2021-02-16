@@ -1,0 +1,25 @@
+%a pouzity template grafu
+%b adresar s ulozenym projektem
+%c aktivni sloupec (Book1_B)
+%d adresar s ukladanim nastaveni
+%e aktivni sheet (Book1[Sheet1])
+%f
+%g nazev originovskeho souboru
+%h nazev aktivniho okna (Book1)
+%i
+%j
+%k
+%l
+%m
+%n
+%o
+%p
+%q
+%r
+%s
+%t
+%u
+%x adresar s projektem
+%y adresar s nejakym nastavenim
+%z
+

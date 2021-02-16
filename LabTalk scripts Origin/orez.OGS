@@ -1,0 +1,11 @@
+//vytvori novy workseet s priponou 'cut'
+//oreze z aktualneho worksheetu prvych 165 riadkov a;
+//poslednych 169 riadkov do worksheetu s priponou 'cut';
+//v pripade odrezania inych riadkov je treba zmenit cisla
+worksheet -d %H+"cut";
+mark -d %H_%(%H,@C,1) -b 1 -e 170;
+mark -d %H_%(%H,@C,1) -b 675 -e 859;
+
+
+
+

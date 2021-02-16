@@ -1,0 +1,12 @@
+worksheet piky2;
+worksheet -d pikyintenzity;
+for (ii=2; ii<=piky2!wks.nCols; ii+=1) {
+for (jj=1; jj<=piky2!wks.nrows; jj+=1) {
+riadok=piky2_%(piky2,@C,$(ii))[$(jj)];
+pikyintenzity_%(pikyintenzity,@C,$(ii))[$(jj)]=fft2_%(fft2,@C,$(ii))[riadok];
+};
+};
+//vytvori novy worksheet pikyintenzity, v ktorom 
+//su intenzity pikov z worksheetu piky2
+//intenzity berie z worksheetu fft2
+

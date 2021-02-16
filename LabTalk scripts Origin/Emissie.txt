@@ -1,0 +1,112 @@
+//Start with some workbooks
+
+
+newbook name:="Sample"; 
+
+wks.ncols = 20;
+
+newbook name:="Reference"; 
+
+wks.ncols = 20;
+
+newbook name:="corrected data"; 
+
+wks.ncols = 20;
+
+newbook;
+
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+newbook name:="Emissie"; 
+
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+newbook;
+wks.ncols = 20;
+
+//ZELF DOEN Import data, first wbook wavelengt and correctioncurve. Second wbook starting from colum 2 sample measurements (absorption). Third wbook starting from col 2 reference measurments.
+
+//u=aantal collums ingevoerd ZELF INTYPEN!
+u=6;
+v=u+1;
+
+
+//definieren wavelenght en correctioncurve 
+
+range wav450=[Book1]Sheet1!col(a);
+range cor450=[Book1]Sheet1!col(b);
+
+//to plot; make colum 1 in book 2 and 3 wavelength. WATCH OUT WITH IMPORTING, FIRST COLM FREE!
+
+range x2=[Book2]Sheet1!col(a);
+x2=wav450;
+
+range x3=[Book3]Sheet1!col(a);
+x3=wav450;
+
+range x4=[Book4]Sheet1!col(a);
+x4=wav450;
+
+
+//correction. data sample is in book 2, reference is in book 3
+
+
+loop(i,2,$(v)){
+range sam=[Book2]Sheet1!col($(i));
+range ref=[Book3]Sheet1!col($(i));
+range cor=[Book4]Sheet1!col($(i));
+cor=(sam-ref)*wav450*cor450;
+}
+
+
+
+//Plotting all corrected absorption
+
+
+
+plotxy iy:=[Book4]Sheet1!(1,2:%(v)) plot:=200;
+
+//---------------------------------------------------------------------------------------------------TOT hier alles runnen, volgende blok daarna!
+//Peak finding
+
+
+
+//Integreren, TYP!pixel nummer in voor centerr en centerl
+
+
+loop(j,2,$(v)){
+range op=[Book8]Sheet1!Col($(j))[1:2];
+centerr=1;
+centerl=635;
+integ1 iy:=[Book4]Sheet1!Col($(j))[$(centerr):$(centerl)] type:=abs area:=op; 
+}
+
+wtranspose iw:=[Book8]Sheet1!;
+
+//col(b) emissie maken, uit absoprtie file abs halen en in col(c) doen, wavelengths in col(a)
+
+range q=[Book8]Sheet1!col(b);
+range w=[Book8]Sheet1!col(c);
+range e=[Book8]Sheet1!col(d);
+
+e=q/w;
+
+plotxy iy:=[Book8]Sheet1!(1,4) plot:=201;
+
+
+
+
+
+

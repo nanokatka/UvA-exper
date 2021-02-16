@@ -1,0 +1,5 @@
+
+loop(i,2,20)
+{
+wks.addcol($(i))
+}

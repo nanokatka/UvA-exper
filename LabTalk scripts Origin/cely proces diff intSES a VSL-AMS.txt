@@ -1,0 +1,102 @@
+//SES from spectral dependence:
+
+loop(i,1,wks.nCols){
+reducerows irng:=col($(i)) npts:=10 rd:=col($(i)); 
+};
+wtranspose;
+range cc=col(1)[1:1];
+mark -d cc;
+loop(i,1,wks.nCols){
+%s=$(i);
+wks.col$(i).name$=dSES%s
+};
+wks.col$(1).type=1;
+wks.insert(Position);
+wks.col$(1).type=4;
+gg=wks.MaxRows;
+loop(i,1,gg){
+Col(Position)[i]=(i-1)*100
+};
+
+
+//inetgrated SES - rename sheet intSES and proceed:
+
+loop(i,2,wks.nCols){
+%s=$(i-1);
+wks.addCol(intSES%s);
+loop(j,1,wks.nRows){
+hh=0;
+loop(p,1,j){
+hh=intSES_dSES%s[p]+hh
+}
+intSES_intSES%s[j]=hh
+}
+}
+
+
+//vezmi zkorigovany a orezany worksheet s VSL daty z iCCD 
+//prejmenuj sheet na "orig"
+//vytvor pomoci nasledujiciho bloku vsl:
+
+
+loop(i,1,wks.nCols){
+reducerows irng:=col($(i)) npts:=10 rd:=col($(i)); 
+};
+wtranspose;
+range cc=col(1)[1:1];
+mark -d cc;
+loop(i,1,wks.nCols){
+%s=$(i);
+wks.col$(i).name$=dVSL%s
+};
+wks.col$(1).type=1;
+wks.insert(Position);
+wks.col$(1).type=4;
+gg=wks.MaxRows;
+loop(i,1,gg){
+Col(Position)[i]=(i-1)*100
+};
+
+//without linear regression version:
+//difference of VSL and intSES - first copy intSES data behind VSL data, then proceed:
+
+loop(i,131,wks.nCols){
+%s=$(i-130);
+wks.col$(i).name$=intSES%s
+};
+loop(i,2,130){
+%s=$(i-1);
+wks.addCol(diff%s);
+loop(j,1,wks.nRows){
+vDiff_diff%s[j]=vDiff_dVSL%s[j]-vDiff_intSES%s[j]
+}
+}
+
+//linear regaression version:
+//difference of VSL and intSES - first copy intSES data behind VSL data, then proceed:
+
+loop(i,207,wks.nCols){
+%s=$(i-206);
+wks.col$(i).name$=intSES%s
+};
+loop(i,2,207){
+%s=$(i-1);
+wks.addCol(diff%s);
+lr vDiff_dVSL%s -b 1 -e 5;
+aa%s=lr.b;
+lr vDiff_intSES%s -b 1 -e 5;
+bb%s=lr.b;
+dd=vDiff_dVSL%s[1];
+ee=vDiff_intSES%s[1];
+loop(j,1,wks.nRows){
+vDiff_dVSL%s[j]=vDiff_dVSL%s[j]-dd;
+vDiff_intSES%s[j]=vDiff_intSES%s[j]-ee
+}
+loop(j,1,wks.nRows){
+vDiff_intSES%s[j]=vDiff_intSES%s[j]*$(aa%s)/$(bb%s);
+vDiff_diff%s[j]=vDiff_dVSL%s[j]-vDiff_intSES%s[j]
+}
+}
+
+
+

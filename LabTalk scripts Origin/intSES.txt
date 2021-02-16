@@ -1,0 +1,16 @@
+gg=wks.nCols;
+for (ii=2;ii<=gg;ii++)
+{
+%s=$(ii-1);
+wks.col$(ii).name$=dSES%s;
+wks.addCol(intSES%s);
+for (jj=1;jj<=wks.nRows;jj++)
+{
+hh=0;
+for (p=1;p<=jj;p++)
+{
+hh=intSES_dSES%s[p]+hh
+}
+intSES_intSES%s[jj]=hh
+}
+}

@@ -1,0 +1,25 @@
+//////////////////////////////////////////////////////////////////////////
+//This code will perform the limit command on the user-selected dataset //
+//and output results in the Script Window				//
+//////////////////////////////////////////////////////////////////////////
+
+[Main]
+	layer -c;		//Count the datasets in the active layer
+	ii=1;			//Initialize ii
+	getnum 
+		(Datasets:) ii:Z
+		(Select Dataset for Analysis);
+	limit %(ii,@D);		//Perform the limit command on the selected dataset
+	run.section(,Output);	//Run the Output section of this file
+	
+[Output]
+	type -a $(@D,D10);			//Type out the date
+	type "Limit performed on %(ii,@D)";	
+	type;					//Type out an empty line
+	type "XMin\tXMax\tYMin\tYMax";		
+	separator 4;				//Type out a seperator line
+	type "$(limit.xmin)\t$(limit.xmax)\t$(limit.ymin)\t$(limit.ymax)";	//Type out the results
+	type;
+
+
+	
