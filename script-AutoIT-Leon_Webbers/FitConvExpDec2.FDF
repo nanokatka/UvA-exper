@@ -1,0 +1,200 @@
+
+
+[General Information]
+Function Name = FitConvExpDec2
+Brief Description = Fit a double exponential decay function to convoluted data
+Function Source = N/A
+Number Of Parameters = 6
+Function Type = User-Defined
+Function Form = Equations
+Path = 
+Number Of Independent Variables = 1
+Number Of Dependent Variables = 1
+FunctionPrev = NewFunction
+
+
+[Fitting Parameters]
+Names = y0,A1,x0,t1,A2,t2
+Initial Values = 0(V),1(V),0(V),1(V),0(V),1(V)
+Meanings = Y-offset,Amplitude 1,X-offset,Decaytime 1,Amplitude 2,Decaytime 2
+Lower Bounds = --(I, Off),0(I, On),--(I, Off),0(I, On),0(I, On),0(I, On)
+Upper Bounds = --(I, Off),--(I, Off),--(I, Off),--(I, Off),--(I, Off),--(I, Off)
+Naming Method = User-Defined
+Number Of Significant Digits = 0,0,0,0,0,0
+Unit = ,,,,,
+
+
+[Independent Variables]
+x = 
+
+
+[Dependent Variables]
+y = 
+
+
+[Formula]
+Worksheet wks = Project.ActiveLayer();
+NLFitContext *pCtxt = Project.GetNLFitContext();
+if ( pCtxt )
+{	
+	// Vector for the output signal in each iteration.
+	static vector vSignal;
+	// If parameters were updated, we will recalculate the convolution result.
+	BOOL bIsNewParamValues = pCtxt->IsNewParamValues();
+	if ( bIsNewParamValues )
+	{
+		// Read sampling and response data from worksheet.
+		Dataset dsSampling(wks, 0);
+		Dataset dsResponse(wks, 2);
+		int iSize = dsSampling.GetSize();
+ 
+		vector vResponse, vSample;
+ 
+		vResponse = dsResponse;
+		vSample = dsSampling;
+ 
+		vSignal.SetSize(iSize);
+		vResponse.SetSize(iSize);
+		vSample.SetSize(iSize);
+ 
+		// Compute the exponential decay curve
+		vSignal = y0 + A1 * exp( -(vSample - x0) / t1 ) + A2 * exp( -(vSample - x0) / t2 );
+		// Perform convolution
+		int iRet = fft_fft_convolution(iSize, vSignal, vResponse);
+ 		
+		// Normalize resuling signal by deviding by max
+ 		double dMin, dMax;
+		vSignal.GetMinMax(dMin, dMax);
+		vSignal /= dMax;
+	}
+ 
+	NLSFCURRINFO    stCurrInfo;
+	pCtxt->GetFitCurrInfo(&stCurrInfo);
+	// Get the data index for the iteration
+	int nCurrentIndex = stCurrInfo.nCurrDataIndex;
+	// Get the evaluated y value
+	y = vSignal[nCurrentIndex];
+	// For compile the function, since we haven't use x here.
+	x;
+}
+
+
+[Initializations]
+
+
+[After Fitting]
+
+
+[Controls]
+General Linear Constraints = 0
+Initialization Scripts = 0
+Scripts After Fitting = 0
+Number Of Duplicates = N/A
+Duplicate Offset = N/A
+Duplicate Unit = N/A
+Generate Curves After Fitting = 1
+Curve Point Spacing = Uniform on X-Axis Scale
+Generate Peaks After Fitting = 1
+Generate Peaks During Fitting = 1
+Generate Peaks with Baseline = 1
+Paste Parameters to Plot After Fitting = 1
+Paste Parameters to Notes Window After Fitting = 1
+Generate Residuals After Fitting = 0
+Keep Parameters = 0
+Compile On Param Change Script = 1
+Enable Parameters Initialization = 1
+
+
+[Compile Function]
+Compile = 1
+Compile Parameters Initialization = 1
+OnParamChangeScriptsEnabled = 0.
+
+
+[Parameters Initialization]
+//Code to be executed to initialize parameters
+x0 = min(x_data);
+int sign;
+t1 = get_exponent(x_data, y_data, &y0, &A1, &sign);
+if (t1 > 0)
+{
+		int nSize = x_data.GetSize();
+		y0 = y_data[0] + y_data[nSize-1] - y0;
+		A1 = A2 = -0.5 * sign * exp(A1+t1*(x_data[0]+x_data[nSize-1])-x0*t1);
+		t1 = t2 = 1 / t1;
+}
+else
+{
+		t1 = t2 = -1 / t1;
+		A1 = A2 = 0.5 * sign * exp(A1 - x0/t1);
+}
+
+
+[Origin C Function Header]
+#pragma warning(error : 15618)
+#include <origin.h>
+
+// Add your special include files here.
+// For example, if you want to fit with functions from the NAG library, 
+// add the header file for the NAG functions here.
+
+// Add code here for other Origin C functions that you want to define in this file,
+// and access in your fitting function.
+
+// You can access C functions defined in other files, if those files are loaded and compiled 
+// in your workspace, and the functions have been prototyped in a header file that you have
+// included above. 
+
+// You can access NLSF object methods and properties directly in your function code.
+
+// You should follow C-language syntax in defining your function. 
+// For instance, if your parameter name is P1, you cannot use p1 in your function code. 
+// When using fractions, remember that integer division such as 1/2 is equal to 0, and not 0.5
+// Use 0.5 or 1/2.0 to get the correct value.
+
+// For more information and examples, please refer to the "User-Defined Fitting Function" 
+// section of the Origin Help file.
+#pragma warning(error : 15618)
+#include <origin.h>
+//Header files need to be included
+#include <ONLSF.H>
+#include <fft_utils.h>
+
+
+
+[Origin C Parameter Initialization Header]
+#include <origin.h>
+
+// Add your special include files here.
+// For example, if you want to use functions from the NAG library, 
+// add the header file for the NAG functions here.
+
+// Add code here for other Origin C functions that you want to define in this file,
+// and access in your parameter initialization.
+
+// You can access C functions defined in other files, if those files are loaded and compiled 
+// in your workspace, and the functions have been prototyped in a header file that you have 
+// included above. 
+	
+// You can access NLSF object methods and properties directly in your function code.
+// You should follow C-language syntax in defining your function. 
+// For instance, if your parameter name is P1, you cannot use p1 in your function code. 
+// When using fractions, remember that integer division such as 1/2 is equal to 0, and not 0.5
+// Use 0.5 or 1/2.0 to get the correct value.
+
+// For more information and examples, please refer to the "User-Defined Fitting Function" 
+// section of the Origin Help file.
+
+
+[Derived Parameter Settings]
+Unit = 
+
+
+[References]
+
+
+[Constants]
+
+
+[Constraints]
+
