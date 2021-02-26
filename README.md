@@ -1,2 +1,2 @@
 # work-lab
-scripts used to process data in our lab
+Scripts used to process data in our lab. 
